@@ -21,7 +21,7 @@ class Queen:
 		diff_y = self.position[1] - other_queen.position[1]
 		if (abs(diff_x) == abs(diff_y)):
 			return True
-
+	
 	def __repr__ (self):
 		return self.name
 
@@ -35,6 +35,12 @@ class Queen:
 class EightQueens:
 	def __init__ (self, queens):
 		self.queens = queens
+
+	def __repr__(self):
+		a = []
+		for j in range(0,8):
+			a.append(self.queens[j].position[1])
+		return str(a) + ":" + str(self.heuristic())
 
 	def draw(self):
 		print "-------------------------"
@@ -67,7 +73,7 @@ class EightQueens:
 		self.lastQueenMoved = self.queens[queenToMove]
 
 	def revoke(self):		
-		self.lastQueenMoved.revoke()
+		self.lastQueenMoved.revoke()		
 
 if __name__ == "__main__":
 	q0 = Queen((0,4))
