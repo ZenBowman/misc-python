@@ -1,3 +1,4 @@
+# HI RUNT!
 inf = 9999999999999999999999999
 
 def findMaxCrossingSubarray(a, low, mid, high):
