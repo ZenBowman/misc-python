@@ -201,24 +201,59 @@ def astar(data, startnode, stepthru=False):
             candidate_list.remove(mincandidate)
             candidate_list = candidate_list + cons_candidates(data, mincandidate)
     return None
-            
     
+
+def domapping(m, i):
+    while m.has_key(i):
+        i = m[i]
+    return i
+
+def partially_mapped_crossover(tour1, tour2):
+    newtour = []
+    cutpoint1 = random.randint(1, len(tour1)/2)
+    cutpoint2 = cutpoint1 + len(tour1)/2 - 1
+    print cutpoint1
+    print cutpoint2
+
+    m = {}
+    for j in range(cutpoint1, cutpoint2):
+        m[tour2[j]] = tour1[j]
+    print m
+
+    newtour.append(domapping(m, tour1[0]))
+
+
+    for i in range(1, len(tour1)-1):
+        if (i >= cutpoint1) and (i < cutpoint2):
+            newtour.append(tour2[i])
+        else:
+            newtour.append(domapping(m,tour1[i]))
+
+    newtour.append(newtour[0])
+    return newtour
+
 if __name__ == "__main__":
     d = generateTSP(8)
     #print d
     plotTSP(d)
+
+    i = raw_input("Choose (1) for nearest neighbor, (2) for A-star, (3) to see the MST, and (4) for genetic algorithm")
     nnsol = nearestneighbor(d, 'A')
     astsol = astar(d, 'A', False)
-    plotsolution(d, astsol, 'r')
     f = mst(d, d.keys())
-    #print f
-    #plotmst(d, f, 'g')
-    plotsolution(d, nnsol, 'b')
-    #print tourcost(d, nnsol)
-    #print astarcost(d, nnsol[:-1])
-    #print tourcost(d, astsol)
-    #print astarcost(d, astsol[:-1])
-    #print mst(d, d.keys())
+    if i == "1":
+        plotsolution(d, nnsol, 'b')
+    elif i == "2":
+        plotsolution(d, astsol, 'r')
+    elif i == "3":
+        plotmst(d, f, 'g')
+    elif i == "4":
+        a1 = [1,2,3,4,5,6,7,8,1]
+        a2 = [3,7,5,1,6,8,2,4,3]
+        print a1
+        print a2
+        print partially_mapped_crossover(a1, a2)
+    #plt.title("Traveling salesman")
+    #plt.show()
+
     
-    plt.title("Traveling salesman")
-    plt.show()
