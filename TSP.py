@@ -213,10 +213,12 @@ if __name__ == "__main__":
     f = mst(d, d.keys())
     #print f
     #plotmst(d, f, 'g')
-    #plotsolution(d, nnsol, 'b')
+    plotsolution(d, nnsol, 'b')
     #print tourcost(d, nnsol)
     #print astarcost(d, nnsol[:-1])
     #print tourcost(d, astsol)
     #print astarcost(d, astsol[:-1])
     #print mst(d, d.keys())
+    
+    plt.title("Traveling salesman")
     plt.show()
