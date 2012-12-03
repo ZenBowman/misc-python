@@ -1,7 +1,7 @@
 import sys
 import os
 import random
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # Points are represented as
 # {
@@ -212,13 +212,13 @@ def partially_mapped_crossover(tour1, tour2):
     newtour = []
     cutpoint1 = random.randint(1, len(tour1)/2)
     cutpoint2 = cutpoint1 + len(tour1)/2 - 1
-    print cutpoint1
-    print cutpoint2
+    #print cutpoint1
+    #print cutpoint2
 
     m = {}
     for j in range(cutpoint1, cutpoint2):
         m[tour2[j]] = tour1[j]
-    print m
+    #print m
 
     newtour.append(domapping(m, tour1[0]))
 
