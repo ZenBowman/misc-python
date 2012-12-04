@@ -1,7 +1,7 @@
 import sys
 import os
 import random
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 # Points are represented as
 # {
@@ -253,7 +253,7 @@ if __name__ == "__main__":
         print a1
         print a2
         print partially_mapped_crossover(a1, a2)
-    #plt.title("Traveling salesman")
-    #plt.show()
+    plt.title("Traveling salesman")
+    plt.show()
 
     
