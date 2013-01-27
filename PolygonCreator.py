@@ -43,10 +43,10 @@ class Line:
         self.origin = origin
         self.end = end
 
-    def draw(self):
-        xs = (self.origin.x, self.end.x)
-        ys = (self.origin.y, self.end.y)
-        line, = plt.plot(xs, ys)
+def draw_line(l, fmt):
+    xs = (l.origin.x, l.end.x)
+    ys = (l.origin.y, l.end.y)
+    line, = plt.plot(xs, ys, fmt)
         
 class Bounds:
     def __init__(self, bottomLeft, topRight):
@@ -157,14 +157,54 @@ def create_polygons(numpolygons, xmin, ymin, xmax, ymax):
     
 def draw_polygon(poly):
     for l in poly.sides():
-        l.draw()
+        draw_line(l, 'r')
 
 def draw_polygons(polys):
     plt.axis([-5,15,-5,15])
     for p in polys:
         draw_polygon(p)
-    plt.show()
+
+def verts(poly):
+    verts = set()
+    for line in poly.sides():
+        verts.add(line.origin)
+        verts.add(line.end)
+    return verts
+
+def nonIntersectingLine(line, otherpolys):
+    for poly in otherpolys:
+        for l in poly.lines:
+            if ((l.origin == line.end) or (l.end == line.end)):
+                continue
+            if lines_intersect(line, l):
+                return False
+    return True
+
+def get_visible_verts_from_polygon(point, poly, otherpolys):
+    vverts = set()
+    polyverts = verts(poly)
+    # find any vert such that the line from point to poly doesn't intersect an edge from another polygon
+    for vert in polyverts:
+        if nonIntersectingLine(Line(point, vert), otherpolys):
+            vverts.add(vert)
+    return vverts
+
+def get_visible_verts(point, polys):
+    visibleVerts = set()
+    for poly in polys:
+        visibleVerts.update(get_visible_verts_from_polygon(point, poly, polys))
+    return visibleVerts
+
+def draw_point(p, fmt):
+    plt.plot((p.x), (p.y), fmt)
 
 if __name__ == "__main__":
     ps = create_polygons(10,0,0,10,10)
     draw_polygons(ps)
+    p = Point(1,1)
+    draw_point(p, 'ro')
+    ps = get_visible_verts(p, ps)
+    for _p in ps:
+        draw_point(_p, 'bo')
+        draw_line(Line(p, _p), 'b--')
+    plt.show()
